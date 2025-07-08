@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-  <meta charset="UTF-8" />
+  <meta charset='UTF-8' />
   <title>Happy Birthday, Ani! 🎉</title>
   <style>
     body {
@@ -31,9 +31,16 @@
 </head>
 <body>
   <h1>Happy Birthday, Ani! 🎂</h1>
-  <p>Skibidi skibida</p>
-  <canvas class="confetti"></canvas>
+  <p id='skibidi' style='cursor: pointer; color: #007bff;'>Skibidi skibida (please click on this)</p>
+  <p id='secret-message' style='display: none; font-size: 1.5rem; color: #2a9d8f; margin-top: 2rem;'>Hi Ani! I couldn't find a birthday card so I made you a digital one. I feel extremely blessed to have met you - going out and hanging out with you has been a blast. You are an amazing and inspirational person, and truly a joy to be around. I hope our friendship continues endlessly, and wishing you an amazing birthday :) On that note, hope we both get a j*b...</p>
+  <canvas class='confetti'></canvas>
   <script>
+    const skibidi = document.getElementById('skibidi');
+    const secret = document.getElementById('secret-message');
+    skibidi.addEventListener('click', () => {
+      secret.style.display = 'block';
+    });
+
     const canvas = document.querySelector('.confetti');
     const ctx = canvas.getContext('2d');
     canvas.width = innerWidth;
@@ -52,7 +59,6 @@
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       pieces.forEach(p => {
-        // draw confetti piece
         ctx.beginPath();
         ctx.lineWidth = p.r;
         ctx.strokeStyle = p.color;
@@ -60,14 +66,9 @@
         ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r / 2);
         ctx.stroke();
 
-        // update position
         p.y += p.d / 50;
-
-        // update wobble and clamp
         p.tilt += p.tiltSpeed;
         if (p.tilt > 15 || p.tilt < -15) p.tiltSpeed *= -1;
-
-        // wrap confetti to top
         if (p.y > canvas.height) p.y = -10;
       });
       requestAnimationFrame(draw);
