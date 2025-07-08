@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Happy Birthday, Alex! 🎉</title>
+  <style>
+    body {
+      background: #fefefe;
+      text-align: center;
+      font-family: sans-serif;
+      padding: 4rem;
+    }
+    h1 {
+      font-size: 3rem;
+      color: #d6336c;
+      animation: pop 0.6s ease-out;
+    }
+    @keyframes pop {
+      0%   { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1);   opacity: 1; }
+    }
+    .confetti {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Happy Birthday Ani! 🎂</h1>
+  <p>Wishing you an amazing year ahead! ❤️</p>
+  <canvas class="confetti"></canvas>
+  <script>
+    // simple confetti loop
+    const canvas = document.querySelector('.confetti');
+    const ctx = canvas.getContext('2d');
+    canvas.width = innerWidth; canvas.height = innerHeight;
+    const pieces = Array.from({length:100}, () => ({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height,
+      r: Math.random()*6+4,
+      d: Math.random()*50+10,
+      tilt: Math.random()*10-10,
+      color: `hsl(${Math.random()*360},70%,60%)`
+    }));
+    function draw(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      pieces.forEach(p => {
+        ctx.beginPath();
+        ctx.lineWidth = p.r;
+        ctx.strokeStyle = p.color;
+        ctx.moveTo(p.x + p.tilt + p.r/2, p.y);
+        ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r/2);
+        ctx.stroke();
+        p.y += p.d/50; p.tilt += 0.1;
+        if(p.y > canvas.height) p.y = -10;
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>
